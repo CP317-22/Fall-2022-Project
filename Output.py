@@ -2,11 +2,16 @@ from StudentObject import Student
 from IO import FileInput
 
 textFile = FileInput()
-combinedList = textFile.combineLists(textFile.readNameFile(), textFile.readCourseFile())
+
+courseFileName = input("Please Enter Course File name: ")
+nameFileName = input("Please Enter Name File name: ")
+
+courseList = textFile.readCourseFile(courseFileName)
+nameList = textFile.readNameFile(nameFileName)
+combinedList = textFile.combineLists(nameList, courseList)
 
 studentList = []
 newStudent = Student("", "", "", 0, 0, 0, 0, 0)
-
 studentList = newStudent.createStudentList(combinedList)
 
 # open file in write mode
@@ -15,7 +20,3 @@ with open(r'C:\Users\Indie\OneDrive\Desktop\Proper Work like a boss\output.txt',
         # write each item on a new line
         fp.write("%s\n" % item)
     print('Done')
-
-studentTest = Student("123", "Inder", "CP316", 71, 90, 90, 90, 90)
-
-print(studentTest)

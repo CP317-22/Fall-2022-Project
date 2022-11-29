@@ -1,64 +1,85 @@
 class Student:
-    studentID: str
-    name: str
-    course: str
-    grade01 = 0.0
-    grade02 = 0.0
-    grade03 = 0.0
-    examGrade = 0.0
-    finalGrade = 0.0
-    studentsListed = []
+    _studentID: str
+    _name: str
+    _course: str
+    _grade01 = 0.0
+    _grade02 = 0.0
+    _grade03 = 0.0
+    _examGrade = 0.0
+    _finalGrade = 0.0
+    _studentsListed = []
 
-    def __init__(self, studentID, name, course, grade01, grade02, grade03, examGrade, finalGrade):
-        self.studentID = studentID
-        self.name = name
-        self.course = course
+    def __init__(self, _studentID, _name, _course, _grade01, _grade02, _grade03, _examGrade, _finalGrade):
+        """
+        -------------------------------------------------------
+        Initializes an empty Student Object.
+        Use: newStudent = Student()
+        -------------------------------------------------------
+        Returns:a new student object
+        -------------------------------------------------------
+        """
+        self.studentID = _studentID
+        self.name = _name
+        self.course = _course
 
-        if grade01 is None or grade02 is None or grade03 is None or examGrade is None:
+        if _grade01 is None or _grade02 is None or _grade03 is None or _examGrade is None:
             raise ValueError("Error grade cannot be NONE")
         else:
-            if grade01 < 0 or grade02 < 0 or grade03 < 0 or examGrade < 0:
+            if _grade01 < 0 or _grade02 < 0 or _grade03 < 0 or _examGrade < 0:
                 raise ValueError("Error grade cannot be Negative")
 
-            elif grade01 > 100 or grade02 > 100 or grade03 > 100 or examGrade > 100:
+            elif _grade01 > 100 or _grade02 > 100 or _grade03 > 100 or _examGrade > 100:
                 raise ValueError("Error grade cannot be higher then 100")
 
 
             else:
-                self.grade01 = grade01
-                self.grade02 = grade02
-                self.grade03 = grade03
-                self.examGrade = examGrade
-                self.finalGrade = finalGrade
+                self.grade01 = _grade01
+                self.grade02 = _grade02
+                self.grade03 = _grade03
+                self.examGrade = _examGrade
+                self.finalGrade = _finalGrade
 
     def __str__(self):
-        return "||Student ID: " + self.studentID + " ||Student Name: " + self.name + " ||Test 1 Grade: {:.1f}".format(
+        """
+        -------------------------------------------------------
+        Initializes an empty Student Object.
+        Use: newStudent = Student()
+        -------------------------------------------------------
+        Returns:a new student object
+        -------------------------------------------------------
+        """
+        return "||Student ID: " + self.studentID + " ||Student Name: " + self.name + " ||Course Code: " + self.course + " ||Test 1 Grade: {:.1f}".format(
             self.grade01) + " ||Test 2 Grade: {:.1f}".format(self.grade02) + " ||Test 3 Grade: {:.1f}".format(
             self.grade03) + " ||Exam Grade: {:.1f}".format(self.examGrade) + " ||Final Grade: {:.1f}".format(
             self.finalGrade)
 
-    def setGradeLimit(self, grade01, grade02, grade03, examGrade):
-        check = False
-        if grade01 or grade02 or grade03 or examGrade < -1:
-            return check, "Error grade cannot be Negative"
-        elif grade01 or grade02 or grade03 or examGrade > 101:
-            return check, "Error grade cannot be higher then 100"
+    def _calculate_grade(self, grade01, grade02, grade03, examGrade):
+        """
+        -------------------------------------------------------
+        Calculates Final grade by using students 3 test results
+        and exam grade.
+        Used in createStudentList
 
-        elif grade01 is None or grade02 is None or grade03 is None or examGrade is None:
-            return check, "Error grade cannot be None"
-        else:
-            check = True
-            return check
-
-    def calculate_grade(self, grade01, grade02, grade03, examGrade):
+        Use: newStudent._calculate_grade(grade1,grade2,grade3,examgrade)
+        -------------------------------------------------------
+        Returns:A calculated final grade
+        -------------------------------------------------------
+        """
         grade = (grade01 * 0.20) + (grade02 * 0.20) + (grade03 * 0.20) + (examGrade * 0.40)
         return grade
 
     def createStudentList(self, studentsListed):
-        errorCheck = False
+        """
+        -------------------------------------------------------
+        Takes in a list of strings with student information. Format should be
+        123456, Name, Course, Grade01, Grade02, Grade03, ExamGrade
 
+        Use: studentList = newStudent.createStudentList(combinedList)
+        -------------------------------------------------------
+        Returns:A list containing student objects.
+        -------------------------------------------------------
+        """
         studentList = []
-        newStudent = Student("", "", "", 0, 0, 0, 0, 0)
 
         ids = [i.split(', ')[0] for i in studentsListed]
         names = [i.split(', ')[1] for i in studentsListed]
@@ -68,8 +89,6 @@ class Student:
         t3 = [i.split(', ')[5] for i in studentsListed]
         f1 = [i.split(', ')[6] for i in studentsListed]
 
-
-
         grade01 = list(map(float, t1))
         grade02 = list(map(float, t2))
         grade03 = list(map(float, t3))
@@ -78,7 +97,7 @@ class Student:
         x = 0
 
         while x < length:
-            self.finalGrade = self.calculate_grade(grade01[x], grade02[x], grade03[x], examGrade[x])
+            self.finalGrade = self._calculate_grade(grade01[x], grade02[x], grade03[x], examGrade[x])
             newStudent = Student(ids[x], names[x], courses[x], grade01[x], grade02[x], grade03[x], examGrade[x],
                                  self.finalGrade)
             studentList.append(newStudent)
